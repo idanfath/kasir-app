@@ -1,0 +1,75 @@
+@import "tailwindcss";
+@source "../views";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+
+button,
+input,
+select,
+textarea {
+    box-sizing: border-box;
+    padding: 3px 8px;
+    border: 1px solid rgb(71, 71, 71);
+    border-radius: 4px;
+}
+
+button {
+    @apply hover:bg-gray-200 bg-gray-100 text-gray-900 border-none;
+    cursor: pointer;
+}
+
+button.danger {
+    @apply bg-red-600 text-white hover:bg-red-700;
+}
+
+button.warn {
+    @apply bg-yellow-500 text-white hover:bg-yellow-600;
+}
+
+button.success {
+    @apply bg-green-600 text-white hover:bg-green-700;
+}
+
+button.primary {
+    @apply bg-blue-600 text-white hover:bg-blue-700;
+}
+
+/* button.danger,
+button.warn,
+button.primary,
+button.success {
+    border: none;
+} */
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 1rem;
+    background-color: transparent;
+}
+
+th,
+td {
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+    text-align: left;
+}
+
+thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
+}
+
+tbody+tbody {
+    border-top: 2px solid #dee2e6;
+}
+
+tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.075);
+}
