@@ -3,17 +3,6 @@
         <div class="text-lg font-bold">
             <a href="/">Kasir App</a>
         </div>
-        {{-- <div>
-            <div>
-                {{ Auth::check() ? Auth::user()->name : 'Guest' }}
-            </div>
-            <div>
-                {{ Auth::check() ? Auth::user()->role : 'Guest' }}
-            </div>
-            <div>
-                {{ Auth::check() ? 'Logout' : 'Login' }}
-            </div>
-        </div> --}}
         @if (Auth::check())
             <div class="flex items-center space-x-4">
                 <span>{{ Auth::user()->name }}</span>
@@ -23,7 +12,7 @@
                 <form action="{{ route('logout') }}" method="post">
                     @csrf
                     <p type="submit" class="cursor-pointer underline text-red-500 hover:text-red-700"
-                        onc`lick="
+                        onclick="
                         event.preventDefault();
                         this.closest('form').submit()">
                         Logout
