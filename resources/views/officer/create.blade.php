@@ -1,5 +1,5 @@
 @extends('layout')
-@section('title', 'List Officer')
+@section('title', 'Tambahkan Akun Kasir')
 @section('content')
     <div class="container mx-auto py-16 px-4">
         <div class="

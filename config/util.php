@@ -1,6 +1,7 @@
 <?php
 return [
     "toRupiah" => function ($value) {
-        return "Rp " . number_format($value, 0, ",", ".");
+        $rupiah = "Rp " . number_format($value, 2, ",", ".");
+        return rtrim($rupiah, "0");
     },
 ];

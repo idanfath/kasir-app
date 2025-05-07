@@ -16,7 +16,7 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $transactions = Transaction::with(["customer", "details"])->paginate(10);
+        $transactions = Transaction::with(["details"])->paginate(10);
         return view("transaction.index", compact("transactions"));
     }
 
@@ -25,7 +25,7 @@ class TransactionController extends Controller
      */
     public function create()
     {
-        $items = Item::get();
+        $items = Item::select("id", "name", "price", "amount")->get();
         return view("transaction.create", compact("items"));
     }
 
@@ -76,7 +76,7 @@ class TransactionController extends Controller
             $transaction->total_price = $totalprice;
             $transaction->save();
             DB::commit();
-            return redirect()->back()->with("info", "ok");
+            return redirect()->back()->with("success", "Berhasil membuat transaksi");
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->withErrors($e->getMessage());
@@ -88,15 +88,38 @@ class TransactionController extends Controller
      */
     public function show(Transaction $transaction)
     {
-        //
+        $details = $transaction->details()->with('item')->paginate(10);
+        return view("transaction.show", compact("transaction", "details"));
     }
 
     public function destroy(Transaction $transaction)
     {
         try {
             $transaction->delete();
-            return redirect()->back()->with("info", "successfully deleted transactions and all of it's details");
+            return redirect()->back()->with("success", "Berhasil menghapus transaksi");
         } catch (\Exception $e) {
+            return redirect()->back()->withErrors($e->getMessage());
+        }
+    }
+
+    public function rollback(Transaction $transaction)
+    {
+        DB::beginTransaction();
+        try {
+            foreach ($transaction->details as $detail) {
+                $item = Item::findOrFail($detail->item_id);
+                $item->amount += $detail->amount;
+                $item->save();
+            }
+            $transaction->delete();
+            DB::commit();
+
+            if (url()->previous() === route('transaction.show', $transaction->id)) {
+                return redirect()->route('transaction.index')->with("success", "Berhasil rollback transaksi");
+            }
+            return redirect()->back()->with("success", "Berhasil rollback transaksi");
+        } catch (\Exception $e) {
+            DB::rollBack();
             return redirect()->back()->withErrors($e->getMessage());
         }
     }

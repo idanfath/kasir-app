@@ -23,7 +23,7 @@
                 <form action="{{ route('logout') }}" method="post">
                     @csrf
                     <p type="submit" class="cursor-pointer underline text-red-500 hover:text-red-700"
-                        onclick="
+                        onc`lick="
                         event.preventDefault();
                         this.closest('form').submit()">
                         Logout
